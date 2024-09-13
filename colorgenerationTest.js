@@ -8,14 +8,11 @@ function generateColor(name) {
     return color;
 }
 
-// Функция для определения яркости цвета
 function isDark(color) {
-    // Убираем символ # и преобразуем цвет в RGB
     const r = parseInt(color.substr(1, 2), 16);
     const g = parseInt(color.substr(3, 2), 16);
     const b = parseInt(color.substr(5, 2), 16);
 
-    // Используем формулу для определения яркости
     const brightness = (r * 299 + g * 587 + b * 114) / 1000;
-    return brightness < 128; // Если яркость меньше 128, то цвет темный
+    return brightness < 128;
 }
