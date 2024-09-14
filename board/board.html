@@ -6,40 +6,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Доска событий</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        @media (max-width: 991px) {
-            .card-col {
-                flex: 0 0 50%;
-                max-width: 50%;
-            }
-        }
-        @media (max-width: 430px) {
-            .card-col {
-                flex: 0 0 100%;
-                max-width: 100%;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="../style.css">
 </head>
 
 <body>
 
-    <nav class="navbar navbar-expand navbar-light bg-white border static-top justify-content-between">
-        <div class="container-fluid">
+    <nav class="navbar navbar-expand border static-top justify-content-between img1">
+        <div class="container">
             <a class="navbar-brand" href="#">
-                <img src="" alt="логотип" class="img-fluid" width="50%">
+                <img src="../images/table-of-contents-svgrepo-com.svg" alt="лого" class="img-fluid" width="70%">
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
-                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                <!-- Top Nav content here -->
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item">
+                      <a class="nav-link" href="../board/board.html">Доска событий</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="../companies/companies.html">Компании</a>
+                    </li>
+                  </ul>
             </div>
-            <div id="">
-                <button class="btn btn-outline-primary" id="user">
-                </button>
-            </div>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false"
+                    id="inputNameEntry"></a>
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="../profile/profile.html">Профиль</a></li>
+                    <li><a class="dropdown-item" href="../login/login.html">Выход</a></li>
+                  </ul>
+                </li>
+              </ul>
         </div>
     </nav>
 

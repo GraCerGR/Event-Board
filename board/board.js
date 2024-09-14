@@ -8,6 +8,8 @@ function createCard(data, id) {
     color = generateColor(data.NameCompany);
     cardContainer.innerHTML = `
         <div class="card">
+            <botton type="button" id="eventInfoButton${id}" class=""
+            data-bs-toggle="modal" data-bs-target="#eventInfo${id}">
             <div class="card-header" style="background-color: ${generateColor(data.NameCompany)};">
                 <h5 id="Name" style="color: ${isDark(color) ? 'white' : 'black'}">
                     ${data.Name}
@@ -29,10 +31,7 @@ function createCard(data, id) {
                     <h7 class="card-text" id="Date">${data.Date}
                 </div>
             </div>
-            <div class="card-footer text-end">
-                <button type="button" id="eventInfoButton${id}" class="btn" style="background-color: ${color}; color: ${isDark(color) ? 'white' : 'black'}"
-                    data-bs-toggle="modal" data-bs-target="#eventInfo${id}">Подробнее</button>
-            </div>
+            </botton>
         </div>
 
 

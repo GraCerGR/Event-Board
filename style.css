@@ -1,0 +1,25 @@
+  @media (max-width: 991px) {
+    .card-col {
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
+}
+
+@media (max-width: 991px) {
+    .card-col {
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
+}
+
+.overflow {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.icon {
+    max-width: 34px;
+    max-height: 34px;
+    margin: 0 5px;
+}

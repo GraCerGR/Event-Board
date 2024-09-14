@@ -26,11 +26,11 @@ function createCard(company) {
                             <div class="col m-1 shadow-sm p-3 bg-body-tertiary rounded overflow d-flex justify-content-between align-items-center">
                                 <span class="overflow">${application.name}</span>
                                 <div>
-                                    <button class="btn btn-link p-0 icon" title="Добавить">
-                                        <img src="../islands-68.webp" alt="добавить" class="img-fluid" width="24" height="24">
+                                    <button class="btn btn-link p-0 icon" title="Одобрить">
+                                        <img src="../images/islands-68.webp" alt="Одобрить" class="img-fluid" width="24" height="24">
                                     </button>
                                     <button class="btn btn-link p-0 icon" title="Удалить">
-                                        <img src="../image.png" alt="Удалить" class="img-fluid" width="24" height="24">
+                                        <img src="../images/image.png" alt="Удалить" class="img-fluid" width="24" height="24">
                                     </button>
                                 </div>
                             </div>
