@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Доска событий</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Arimo:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+</head>
+
+<body>
+  <nav class="navbar navbar-dark navbar-expand border static-top justify-content-between img1">
+    <div class="container">
+        <a class="navbar-brand" href="#">
+            <img src="../images/table-of-contents-svgrepo-com.svg" alt="лого" class="img-fluid" width="70%">
+        </a>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        </div>
+    </div>
+  </nav>
+
+  <div class="container2 py-2">
+    <h1 class="text-center" style="font-size: 24px">Вход</h1>
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <form>
+          <div class="form-group">
+            <label for="Email">Email</label>
+            <input id="Email" type="email" class="form-control" placeholder="Email"
+              pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required>
+            <div class="invalid-feedback">Пожалуйста, введите действительный email адрес.</div>
+          </div>
+          <div class="form-group">
+            <label for="password">Пароль</label>
+            <input id="password" type="password" class="form-control" placeholder="Пароль">
+          </div>
+          <div class="form-group text-center">
+            <div class="d-grid gap-2">
+              <button id="loginButton" type="submit" href="#" class="btn btn-primary my-3">Войти</button>
+        </form>
+        <p class="text-center">Нет аккаунта? <a href="/registration/registration.html">Зарегистрируйтесь</a></p>
+      </div>
+    </div>
+  </div>
+  </div>
+
+</body>
+
+<script src="../login/login.js"></script>
+
+</html>
