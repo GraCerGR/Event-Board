@@ -1,4 +1,4 @@
-let token;
+let accessToken;
 
 async function post(url, data = null) {
   return fetch(url, {
@@ -11,10 +11,13 @@ async function post(url, data = null) {
     .then(response => response.json())
     .then(data => {
       console.log(data);
-      if (data.token) {
-        token = data.token;
-        localStorage.setItem('token', token);
-        window.location.href = '../patients/patients.html';
+      if (data.accessToken) {
+        localStorage.setItem('accessToken', result.accessToken);
+        localStorage.setItem('refreshToken', result.refreshToken);
+        // Обновите время истечения токенов
+        localStorage.setItem('accessTokenExpiration', result.accessTokenExpiration);
+        localStorage.setItem('refreshTokenExpiration', result.refreshTokenExpiration);
+        window.location.href = '../board/board.html';
       } else {
         alert(data.message || 'Неверный логин или пароль');
       }
@@ -24,7 +27,7 @@ async function post(url, data = null) {
       console.error('Ошибка', error);
     });
 }
-const url = "https://mis-api.kreosoft.space/api/doctor/login";
+const url = "https://176.209.128.63:7088/api/Auth/login";
 const form = document.querySelector('form');
 if (form) {
   form.addEventListener('submit', function (event) {
@@ -39,6 +42,6 @@ if (form) {
 
     console.log(data);
     post(url, data);
-    console.log(token);
+    console.log(accessToken);
   });
 }

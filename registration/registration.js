@@ -1,30 +1,5 @@
 const inputTel = document.getElementById('inputTel');
 
-inputTel.addEventListener('input', function (e) {
-  let value = e.target.value;
-  value = value.replace(/\D/g, ''); // Удаляем все, кроме цифр
-
-  // Добавляем символы "+7 (", ")" и "-" последовательно
-  let formattedValue = '';
-  if (value.length > 0) {
-    formattedValue = '+7';
-  }
-  if (value.length >= 2) {
-    formattedValue += ' (' + value.slice(1, 4);
-  }
-  if (value.length >= 5) {
-    formattedValue += ') ' + value.slice(4, 7);
-  }
-  if (value.length >= 8) {
-    formattedValue += '-' + value.slice(7, 9);
-  }
-  if (value.length >= 10) {
-    formattedValue += '-' + value.slice(9, 11);
-  }
-
-  e.target.value = formattedValue;
-});
-
 async function get(url) {
   return fetch(url, {
     method: 'GET',
@@ -39,11 +14,11 @@ async function get(url) {
       console.error('Ошибка', error);
     });
 }
-const url = `https://mis-api.kreosoft.space/api/dictionary/speciality?size=30`;
+const url = `https://176.209.128.63:7088/api/Company/list?Size=1000`;
 get(url)
 
 function populateSpecialties(specialties) {
-  const selectSpecialties = document.getElementById('selectSpecialties');
+  const selectSpecialties = document.getElementById('selectIdCompanyM');
   specialties.forEach(specialty => {
     const option = document.createElement('option');
     option.value = specialty.id;
@@ -54,7 +29,7 @@ function populateSpecialties(specialties) {
 
 
 async function registerPost(data) {
-  const url = 'https://mis-api.kreosoft.space/api/doctor/register';
+  const url = `https://176.209.128.63:7088/api/Auth/register/${user}`;
   return fetch(url, {
     method: 'POST',
     headers: {
@@ -73,15 +48,18 @@ async function registerPost(data) {
         console.log(result.message);
       }
 
-      if (result.title) {
+      /*if (result.title) {
         errorMessage.textContent = result.title;
         console.log(result.title);
-      }
+      }*/
 
-      if (result.token) {
-        token = result.token;
-        localStorage.setItem('token', token);
-        window.location.href = '../patients/patients.html';
+        if (result.accessToken) {
+          localStorage.setItem('accessToken', result.accessToken);
+          localStorage.setItem('refreshToken', result.refreshToken);
+          // Обновите время истечения токенов
+          localStorage.setItem('accessTokenExpiration', result.accessTokenExpiration);
+          localStorage.setItem('refreshTokenExpiration', result.refreshTokenExpiration);
+          window.location.href = '../board/board.html';
       }
     })
     .catch(error => {
@@ -91,36 +69,62 @@ async function registerPost(data) {
     });
 }
 
-const form = document.querySelector('form');
-if (form) {
-  form.addEventListener('submit', function (event) {
-    event.preventDefault(); // Предотвращаем отправку формы
+const managerReg = document.getElementById("managerReg");
+if (managerReg) {
+  managerReg.addEventListener('submit', function (event) {
+    event.preventDefault();
 
-    const name = document.getElementById('inputName').value;
-    const password = document.getElementById('inputPassword').value;
-    const email = document.getElementById('Email').value;
-    const birthday = document.getElementById('inputData').value;
-    const gender = document.getElementById('selectGender').value;
-    const phone = document.getElementById('inputTel').value;
-    const speciality = document.getElementById('selectSpecialties').value;
+    const name = document.getElementById('inputNameM').value;
+    const password = document.getElementById('inputPasswordM').value;
+    const email = document.getElementById('EmailM').value;
+    const idCompany = document.getElementById('idCompanyM').value;
 
     const data = {
       name: name,
       password: password,
       email: email,
-      birthday: birthday,
-      gender: gender,
-      phone: phone,
-      speciality: speciality
+      idCompany: idCompany
     };
-
-    if (!phone) {
-      data.phone = null;
-    }
 
     console.log(data);
 
     registerPost(data);
   });
+}
+
+const studentReg = document.getElementById("studentReg");
+if (studentReg) {
+  studentReg.addEventListener('submit', function (event) {
+    event.preventDefault();
+
+    const name = document.getElementById('inputNameS').value;
+    const password = document.getElementById('inputPasswordS').value;
+    const email = document.getElementById('EmailS').value;
+    const studentCardId = document.getElementById('inputstudentCardIdS').value;
+
+    const data = {
+      name: name,
+      password: password,
+      email: email,
+      studentCardId: studentCardId
+    };
+
+    console.log(data);
+
+    registerPost(data);
+  });
+}
+
+function handleLinkClick(linkName) {
+  let user;
+  if (linkName === 'student') {
+    document.getElementById('managerReg').style.display = 'none';
+    document.getElementById('studentReg').style.display = 'block';
+    user = 'student';
+} else if (linkName === 'manager') {
+  document.getElementById('studentReg').style.display = 'none';
+  document.getElementById('managerReg').style.display = 'block';
+  user = 'manager';
+}
 }
 
