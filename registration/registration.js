@@ -1,24 +1,27 @@
-const inputTel = document.getElementById('inputTel');
+let user;
 
 async function get(url) {
   return fetch(url, {
     method: 'GET',
+    headers: {
+      'Accept': '*/*'
+  }
   })
     .then(response => response.json())
     .then(data => {
       console.log(url);
       console.log(data);
-      populateSpecialties(data.specialties);
+      populateSpecialties(data.companies);
     })
     .catch(error => {
       console.error('Ошибка', error);
     });
 }
 const url = `https://176.209.128.63:7088/api/Company/list?Size=1000`;
-get(url)
+get(url);
 
 function populateSpecialties(specialties) {
-  const selectSpecialties = document.getElementById('selectIdCompanyM');
+  const selectSpecialties = document.getElementById('idCompanyM');
   specialties.forEach(specialty => {
     const option = document.createElement('option');
     option.value = specialty.id;
@@ -48,15 +51,20 @@ async function registerPost(data) {
         console.log(result.message);
       }
 
-      /*if (result.title) {
-        errorMessage.textContent = result.title;
-        console.log(result.title);
-      }*/
+      if (result.errors) {
+        errorMessage.innerHTML = '';
+    
+        for (const [key, messages] of Object.entries(result.errors)) {
+            const errorItem = document.createElement('div');
+            errorItem.className = 'error-item';
+            errorItem.textContent = `${messages.join(', ')}`;
+            errorMessage.appendChild(errorItem);
+        }
+    }
 
         if (result.accessToken) {
           localStorage.setItem('accessToken', result.accessToken);
           localStorage.setItem('refreshToken', result.refreshToken);
-          // Обновите время истечения токенов
           localStorage.setItem('accessTokenExpiration', result.accessTokenExpiration);
           localStorage.setItem('refreshTokenExpiration', result.refreshTokenExpiration);
           window.location.href = '../board/board.html';
@@ -116,7 +124,6 @@ if (studentReg) {
 }
 
 function handleLinkClick(linkName) {
-  let user;
   if (linkName === 'student') {
     document.getElementById('managerReg').style.display = 'none';
     document.getElementById('studentReg').style.display = 'block';

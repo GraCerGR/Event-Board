@@ -12,16 +12,14 @@ async function post(url, data = null) {
     .then(data => {
       console.log(data);
       if (data.accessToken) {
-        localStorage.setItem('accessToken', result.accessToken);
-        localStorage.setItem('refreshToken', result.refreshToken);
-        // Обновите время истечения токенов
-        localStorage.setItem('accessTokenExpiration', result.accessTokenExpiration);
-        localStorage.setItem('refreshTokenExpiration', result.refreshTokenExpiration);
+        localStorage.setItem('accessToken', data.accessToken);
+        localStorage.setItem('refreshToken', data.refreshToken);
+        localStorage.setItem('accessTokenExpiration', data.accessTokenExpiration);
+        localStorage.setItem('refreshTokenExpiration', data.refreshTokenExpiration);
         window.location.href = '../board/board.html';
       } else {
         alert(data.message || 'Неверный логин или пароль');
       }
-      localStorage.setItem('token', token);
     })
     .catch(error => {
       console.error('Ошибка', error);
@@ -42,6 +40,5 @@ if (form) {
 
     console.log(data);
     post(url, data);
-    console.log(accessToken);
   });
 }
