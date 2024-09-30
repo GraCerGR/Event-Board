@@ -1,18 +1,27 @@
 /*import { generateColor } from '..colorgenerationTest.js';
 import { isDark } from '..colorgenerationTest.js';*/
+const eventsList = [];
+
+GetCompanies().then(() => {
+    eventsList.forEach((event) => {
+        console.log(event);
+        createCard(event, event.companyId);}
+      );
+});
+
 
 function createCard(data, id) {
     const cardContainerWrapper = document.querySelector('.row.row-cols-md-4');
     const cardContainer = document.createElement('div');
     cardContainer.classList.add('card-col','mb-4','card-col');
-    color = generateColor(data.NameCompany);
+    color = generateColor(id);
     cardContainer.innerHTML = `
         <div class="card">
             <botton type="button" id="eventInfoButton${id}" class=""
             data-bs-toggle="modal" data-bs-target="#eventInfo${id}">
-            <div class="card-header" style="background-color: ${generateColor(data.NameCompany)};">
+            <div class="card-header" style="background-color: ${generateColor(id)};">
                 <h5 id="Name" style="color: ${isDark(color) ? 'white' : 'black'}">
-                    ${data.Name}
+                    ${data.title}
                 </h5>
                 <div id="NameCompany" style="color: ${isDark(color) ? 'white' : 'black'}">
                     ${data.NameCompany}
@@ -21,14 +30,14 @@ function createCard(data, id) {
             <div class="card-body">
                 <p class="card-text" id="Description"
                     style="overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 5;">
-                        ${data.Description}
+                        ${data.description}
                 <div>
                     <b class="card-text">Организатор:</b>
                     <h7 class="card-text" id="UserName">${data.UserName}
                 </div>
                 <div>
                     <b class="card-text">Дата и время:</b>
-                    <h7 class="card-text" id="Date">${data.Date}
+                    <h7 class="card-text" id="Date">${formatDataTime(data.date)}
                 </div>
             </div>
             </botton>
@@ -39,26 +48,26 @@ function createCard(data, id) {
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header" style="background-color: ${color};">
-                    <h5 class="modal-title" id="eventInfo${id}Label"style="color: ${isDark(color) ? 'white' : 'black'}">${data.Name}</h5>
+                    <h5 class="modal-title" id="eventInfo${id}Label"style="color: ${isDark(color) ? 'white' : 'black'}">${data.title}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p>${data.Description}</p>
+                    <p>${data.description}</p>
                     <div>
                         <b class="card-text">Компания-организатор:</b>
-                        <h7 class="card-text" id="UserName${id}">${data.UserName}
+                        <h7 class="card-text" id="UserName${id}">${data.NameCompany}
                     </div>
                     <div>
                         <b class="card-text">Организатор:</b>
-                        <h7 class="card-text" id="NameCompany${id}">${data.NameCompany}
+                        <h7 class="card-text" id="NameCompany${id}">${data.UserName}
                     </div>
                     <div>
                         <b class="card-text">Дата и время мероприятия:</b>
-                        <h7 class="card-text" id="Date${id}">${data.Date}
+                        <h7 class="card-text" id="Date${id}">${formatDataTime(data.date)}
                     </div>
                     <div>
                         <b class="card-text">Место проведения:</b>
-                        <h7 class="card-text" id="Location${id}">${data.Location}
+                        <h7 class="card-text" id="Location${id}">${data.location}
                     </div>
                 </div>
                 <div class="modal-footer" id="ListUser${id}">
@@ -74,7 +83,7 @@ function createCard(data, id) {
                     </div>
                 </div>
                 <div class="modal-footer d-flex justify-content-between align-items-center">
-                    <span id="deadline" class="ml-2">Дедлайн записи: ${data.Deadline}</span>
+                    <span id="deadline" class="ml-2">Дедлайн записи: ${formatDataTime(data.registrationDeadline)}</span>
                     <button type="button" class="btn" onclick="visit()" style="background-color: ${color}; color: ${isDark(color) ? 'white' : 'black'}";>Посетить</button>
                 </div>
             </div>
@@ -82,7 +91,9 @@ function createCard(data, id) {
     </div>
     `;
     cardContainerWrapper.appendChild(cardContainer);
-    generateUserList(data.Students, id);
+    if(data.registeredStudents){
+        generateUserList(data.registeredStudents, id);
+    }
 
   /*  const addToCartButton = cardContainer.querySelector('.btn-primary');
     addToCartButton.addEventListener('click', () => {
@@ -170,6 +181,92 @@ const events = [
     },
 ];
 
-events.forEach((event, index) => {
-    createCard(event,index);
-  });
+async function GetCompanies() {
+    let page = 1;
+    let companiesData;
+
+    while (true) {
+        const url = `https://localhost:7088/api/Company/list?Page=${page}&Size=100`;
+        try {
+            const response = await fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Accept': 'text/plain'
+                }
+            });
+            if (!response.ok) {
+                throw new Error('Network response was not ok ' + response.statusText);
+            }
+
+            const data = await response.text();
+
+            try {
+                companiesData = JSON.parse(data);
+            } catch (error) {
+                console.error('Ошибка парсинга данных:', error);
+                return;
+            }
+
+            console.log(companiesData);
+
+            if (companiesData.companies.length === 0) {
+                break;
+            }
+            companiesData.companies.forEach((event) => {
+                GetEventsCompany(event);
+                //createCard(event, event.id);
+              })
+
+            page++;
+        } catch (error) {
+            console.error('There was a problem with the fetch operation:', error);
+            break;
+        }
+    }
+}
+
+async function GetEventsCompany(event) {
+    const url = `https://localhost:7088/api/events/companies/${event.id}`;
+    try {
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'Accept': 'text/plain'
+            }
+        });
+        if (!response.ok) {
+            throw new Error('Network response was not ok ' + response.statusText);
+        }
+        const data = await response.text();
+        let datas;
+        try {
+            datas = JSON.parse(data);
+        } catch (error) {
+            console.error('Ошибка парсинга данных:', error);
+            return;
+        }
+
+
+        if (Array.isArray(datas)) {
+            eventsList.push(...datas);
+        } else {
+            eventsList.push(datas);
+        }
+
+        console.log(eventsList); // Выводим текущий список событий
+    } catch (error) {
+        console.error('There was a problem with the fetch operation:', error);
+    }
+}
+
+function formatDataTime(originalDate) {
+    const dateParts = originalDate.split("T")[0].split("-");
+    const timeParts = originalDate.split("T")[1].split(":");
+    const day = dateParts[2];
+    const month = dateParts[1];
+    const year = dateParts[0];
+    const hours = timeParts[0];
+    const minutes = timeParts[1];
+    const formattedDate = `${day}.${month}.${year} ${hours}:${minutes}`;
+    return formattedDate;
+}
