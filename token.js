@@ -1,7 +1,7 @@
 // Функция для обновления accessToken
 async function refreshAccessToken(refreshToken) {
     try {
-        const response = await fetch('https://176.209.128.63:7088/api/Auth/refresh', {
+        const response = await fetch('https://localhost:7088/api/Auth/refresh', {
             method: 'POST',
             headers: {
                 'Accept': 'text/plain',
@@ -44,6 +44,7 @@ function checkAccessTokenExpiration() {
             }
         } else {
             console.log('Токен еще действителен');
+            console.log(localStorage.getItem('accessToken'));
         }
     } else {
         console.error('Access token expiration отсутствует');

@@ -17,7 +17,7 @@ async function get(url) {
       console.error('Ошибка', error);
     });
 }
-const url = `https://176.209.128.63:7088/api/Company/list?Size=1000`;
+const url = `https://localhost:7088/api/Company/list?Size=1000`;
 get(url);
 
 function populateSpecialties(specialties) {
@@ -32,7 +32,7 @@ function populateSpecialties(specialties) {
 
 
 async function registerPost(data) {
-  const url = `https://176.209.128.63:7088/api/Auth/register/${user}`;
+  const url = `https://localhost:7088/api/Auth/register/${user}`;
   return fetch(url, {
     method: 'POST',
     headers: {
@@ -43,7 +43,13 @@ async function registerPost(data) {
     .then(response => response.json())
     .then(result => {
       console.log(result);
-      const errorMessage = document.getElementById('errorMessage');
+      console.log(user);
+      let errorMessage;
+      if (user == 'manager'){
+        errorMessage = document.getElementById('errorMessage1');
+      } else if (user =='student'){
+        errorMessage = document.getElementById('errorMessage2');
+      }
       errorMessage.textContent = '';
 
       if (result.message) {

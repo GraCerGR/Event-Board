@@ -7,7 +7,7 @@ logoutB.addEventListener('click', function() {
 });
 async function logout() {
     try {
-        const response = await fetch('https://176.209.128.63:7088/api/Auth/logout', {
+        const response = await fetch('https://localhost:7088/api/Auth/logout', {
             method: 'DELETE',
             headers: {
                 'Accept': '*/*',

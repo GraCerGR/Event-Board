@@ -25,7 +25,7 @@ async function post(url, data = null) {
       console.error('Ошибка', error);
     });
 }
-const url = "https://176.209.128.63:7088/api/Auth/login";
+const url = "https://localhost:7088/api/Auth/login";
 const form = document.querySelector('form');
 if (form) {
   form.addEventListener('submit', function (event) {
