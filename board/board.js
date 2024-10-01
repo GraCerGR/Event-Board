@@ -2,14 +2,13 @@
 import { isDark } from '..colorgenerationTest.js';*/
 const eventsList = [];
 
-GetCompanies().then(() => {
+async function Get() {
+    await GetCompanies()
     eventsList.forEach((event) => {
         console.log(event);
         createCard(event, event.companyId);
-    }
-    );
-});
-
+    });
+}
 
 async function createCard(data, id) {
     const cardContainerWrapper = document.querySelector('.row.row-cols-md-4');
@@ -71,7 +70,16 @@ async function createCard(data, id) {
                     </div>
                 </div>
                 <div class="modal-footer" id="ListUser${data.id}">
-
+                    <div class="w-100">
+                        <button class="btn body-tertiary w-100" data-bs-toggle="collapse"
+                            data-bs-target="#ListUserCollapse${data.id}" aria-expanded="false" aria-controls="ListUserCollapse${data.id}">
+                            Кто пойдёт
+                        </button>
+                        <div class="collapse" id="ListUserCollapse${data.id}">
+                            <ul class="list-group" style="max-height: 150px; overflow-y: auto;" id="userList${data.id}">
+                            </ul>
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer d-flex justify-content-between align-items-center">
                     <span id="deadline" class="ml-2">Дедлайн записи: ${formatDataTime(data.registrationDeadline)}</span>
@@ -83,9 +91,9 @@ async function createCard(data, id) {
     `;
     cardContainerWrapper.appendChild(cardContainer);
 
-    if (data.registeredStudents) {
+/*    if (data.registeredStudents) {
         generateUserList(data.registeredStudents, data.id);
-    }
+    }*/
 
     /*  const addToCartButton = cardContainer.querySelector('.btn-primary');
       addToCartButton.addEventListener('click', () => {
@@ -93,8 +101,9 @@ async function createCard(data, id) {
       });*/
 
     document.getElementById(`eventInfoButton${data.id}`).addEventListener('click', function () {
-        console.log('Одобрить нажато для ID:', data.id);
-        getStudents(data.id);
+        console.log(data);
+//         generateUserList(data.registeredStudents, data.id); // Для статичных данных
+        getStudents(data.id); //Если бек будет готов
     });
 }
 
@@ -112,70 +121,50 @@ async function generateUserList(users, id) {
 
 const events = [
     {
-        Name: "Название мероприятия 1",
-        Description: "Описание мероприятия 1",
+        id: "c8e68bc9-fbd6-4a18-8f57-56205d4334d1",
+        title: "Название мероприятия 1",
+        description: "Описание мероприятия 1",
+        companyId: "08a2be1d-0a52-4a42-ba6f-c8331e8c50ab",
         NameCompany: "Название компании 1",
         UserName: "Имя создателя 1",
-        Date: "31.12.2023 12:30",
-        Location: "Адрес места проведения 1",
-        Deadline: "30.12.2023",
-        Students: [
+        date: "2024-10-30T13:25:00.122Z",
+        location: "Адрес места проведения 1",
+        registrationDeadline: "2024-10-30T13:25:00.122Z",
+        registeredStudents: [
             { name: "Пользователь 1" },
             { name: "Пользователь 2" }
         ]
     },
     {
-        Name: "Название мероприятия 2",
-        Description: "Описание мероприятия 2",
+        id: "6a790f87-c035-4d62-a0a5-b95e140d5a66",
+        title: "Название мероприятия 2",
+        description: "Описание мероприятия 2",
+        companyId: "d9a8ba8d-de4b-4b84-9111-f92fcb595a9d",
         NameCompany: "компания 2",
         UserName: "Имя создателя 2",
-        Date: "01.01.2024 14:00",
-        Location: "Адрес места проведения 2",
-        Deadline: "31.12.2023",
-        Students: [
+        date: "2024-10-30T13:25:00.122Z",
+        location: "Адрес места проведения 2",
+        registrationDeadline: "2024-10-30T13:25:00.122Z",
+        registeredStudents: [
             { name: "Пользователь 3" },
             { name: "Пользователь 4" }
         ]
     },
     {
-        Name: "Название мероприятия 3",
-        Description: "Описание мероприятия 3",
+        id: "8e08afd6-4879-4eea-800a-046ede14207a",
+        title: "Название мероприятия 3",
+        description: "Описание мероприятия 3",
+        companyId: "16ab4454-4e7f-4d0a-9b58-9b4bd26691ae",
         NameCompany: "Хитс",
         UserName: "Имя создателя 3",
-        Date: "02.01.2024 16:00",
-        Location: "Адрес места проведения 3",
-        Deadline: "01.01.2024",
-        Students: [
+        date: "2024-10-30T13:25:00.122Z",
+        location: "Адрес места проведения 3",
+        registrationDeadline: "2024-10-30T13:25:00.122Z",
+        registeredStudents: [
             { name: "Пользователь 5" },
             { name: "Пользователь 6" }
         ]
-    },
-    {
-        Name: "Название мероприятия 1",
-        Description: "Описание мероприятия 1",
-        NameCompany: "Цвет 30000",
-        UserName: "Имя создателя 1",
-        Date: "31.12.2023 12:30",
-        Location: "Адрес места проведения 1",
-        Deadline: "30.12.2023",
-        Students: [
-            { name: "Пользователь 1" },
-            { name: "Пользователь 2" }
-        ]
-    },
-    {
-        Name: "Название мероприятия 1",
-        Description: "Описание мероприятия 1",
-        NameCompany: "Название компании 1",
-        UserName: "Имя создателя 1",
-        Date: "31.12.2023 12:30",
-        Location: "Адрес места проведения 1",
-        Deadline: "30.12.2023",
-        Students: [
-            { name: "Пользователь 1" },
-            { name: "Пользователь 2" }
-        ]
-    },
+    }
 ];
 
 async function GetCompanies() {
@@ -351,3 +340,9 @@ async function UserList(id, data) {
         generateUserList(data, id);
     }
 }
+
+events.forEach((event) => {
+    createCard(event, event.companyId);
+});
+
+Get();
