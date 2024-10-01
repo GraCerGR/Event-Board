@@ -276,4 +276,18 @@ if (formCreate) {
     formCreate.addEventListener('submit', function (event) {
     event.preventDefault();
 
+    const title = document.getElementById('Name').value;
+    const shortDescription = document.getElementById('Description').value;
+    const eventDateTime = document.getElementById('Date').value;
+    const location = document.getElementById('Location').value;
+
+    const data = {
+        title: title,
+        shortDescription: shortDescription,
+        eventDateTime: eventDateTime,
+        location: location
+    };
+
+    console.log(data);
+    makeEvent(data);
 });}
