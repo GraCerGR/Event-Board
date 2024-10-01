@@ -1,10 +1,9 @@
 const container = document.getElementById('companiesContainer');
 let page = 1;
 let ManagersArray;
-getManagers();
-GetCompanies(page);
+getManagers().then(GetCompanies(page));
 
-function createCard(company) {
+async function createCard(company) {
     const card = document.createElement('div');
     card.className = 'card shadow bg-body-tertiary rounded mb-3';
     card.innerHTML = `
@@ -74,17 +73,6 @@ function createCard(company) {
 
 }
 
-function generateUserList(users, id) {
-    const userList = document.getElementById(`userList${id}`);
-    userList.innerHTML = '';
-
-    users.forEach(user => {
-        const listItem = document.createElement('li');
-        listItem.className = 'list-group-item';
-        listItem.textContent = user.name;
-        userList.appendChild(listItem);
-    });
-}
 
 const companies = [
     {
