@@ -5,7 +5,8 @@ async function refreshAccessToken(refreshToken) {
             method: 'POST',
             headers: {
                 'Accept': 'text/plain',
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
             },
             body: JSON.stringify({ refreshToken: refreshToken })
         });
