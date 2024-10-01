@@ -174,10 +174,8 @@ async function GetCompanies(page) {
     });
 }
 
-async function createcompany() {
+async function createcompany(data) {
     const url = 'https://localhost:7088/api/Company';
-
-    const data = JSON.stringify(document.getElementById('CompanyName').value); // Замените на ваши данные, если необходимо
 
     try {
         const response = await fetch(url, {
@@ -187,7 +185,7 @@ async function createcompany() {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
             },
-            body: data
+            body: JSON.stringify(data)
         });
 
         if (!response.ok) {
@@ -343,3 +341,11 @@ async function status(id, status) {
         console.error('There was a problem with the fetch operation:', error);
     }
 }
+
+const formCreate = document.getElementById("createCompany");
+if (formCreate) {
+    formCreate.addEventListener('submit', function (event) {
+    event.preventDefault();
+        const data = document.getElementById('CompanyName').value;
+        createcompany(data);
+});}

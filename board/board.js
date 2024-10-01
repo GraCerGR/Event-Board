@@ -10,15 +10,14 @@ GetCompanies().then(() => {
 });
 
 
-function createCard(data, id) {
+async function createCard(data, id) {
     const cardContainerWrapper = document.querySelector('.row.row-cols-md-4');
     const cardContainer = document.createElement('div');
     cardContainer.classList.add('card-col','mb-4','card-col');
     color = generateColor(id);
     cardContainer.innerHTML = `
         <div class="card">
-            <botton type="button" id="eventInfoButton${id}" class=""
-            data-bs-toggle="modal" data-bs-target="#eventInfo${id}">
+            <botton type="button" id="eventInfoButton${id}" class="" data-bs-toggle="modal" data-bs-target="#eventInfo${id}">
             <div class="card-header" style="background-color: ${generateColor(id)};">
                 <h5 id="Name" style="color: ${isDark(color) ? 'white' : 'black'}">
                     ${data.title}
@@ -100,8 +99,8 @@ function createCard(data, id) {
         addToCart(data.id);
     });*/
 }
-
-function generateUserList(users, id) {
+ 
+async function generateUserList(users, id) {
     const userList = document.getElementById(`userList${id}`);
     userList.innerHTML = '';
 
@@ -259,7 +258,7 @@ async function GetEventsCompany(event) {
     }
 }
 
-function formatDataTime(originalDate) {
+async function formatDataTime(originalDate) {
     const dateParts = originalDate.split("T")[0].split("-");
     const timeParts = originalDate.split("T")[1].split(":");
     const day = dateParts[2];
@@ -270,3 +269,11 @@ function formatDataTime(originalDate) {
     const formattedDate = `${day}.${month}.${year} ${hours}:${minutes}`;
     return formattedDate;
 }
+
+
+const formCreate = document.getElementById("createEvent1");
+if (formCreate) {
+    formCreate.addEventListener('submit', function (event) {
+    event.preventDefault();
+
+});}
